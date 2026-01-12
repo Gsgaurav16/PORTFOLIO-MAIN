@@ -28,16 +28,16 @@ interface PortfolioState {
     refreshData: () => void;
 }
 
-// Default initial state
+// Default initial state with Hardcoded Seed Data for Instant Load
 const defaultProfile: Profile = {
-    id: "",
-    name: "",
-    role: "",
-    bio: "",
-    years: "0",
-    projects_count: "0",
-    awesomeness: "0",
-    expertise: []
+    id: "static-init",
+    name: "Gaurav",
+    role: "Dev & Creator",
+    bio: "Building clean UI, scalable backends, and creative tech.",
+    years: "5+",
+    projects_count: "42",
+    awesomeness: "100%",
+    expertise: ['Frontend', 'Backend', 'UI/UX']
 };
 
 // Helper: Fetch with retry
@@ -70,22 +70,30 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
     hasFetched: false,
 
     fetchAllData: async () => {
-        if (get().isLoading) return;
+        if (get().hasFetched) return; // Prevent refetching if already done
 
         set({ isLoading: true, error: null });
+
         try {
+            // 1. Fetch Profile FAST (Critical for Hero)
+            // We use the static defaultProfile initially, but updated it if API returns new data
+            fetchWithRetry(() => profileApi.get())
+                .then((res) => {
+                    if (res.data) set({ profile: res.data });
+                })
+                .catch(err => console.error("Profile fetch silent fail:", err));
+
+            // 2. Fetch Heavy Data in Background (Parallel)
             const [
                 projectsRes,
                 skillsRes,
                 expRes,
-                socialsRes,
-                profileRes
+                socialsRes
             ] = await Promise.all([
                 fetchWithRetry(() => projectsApi.getAll()),
                 fetchWithRetry(() => skillsApi.getAll()),
                 fetchWithRetry(() => experiencesApi.getAll()),
                 fetchWithRetry(() => socialsApi.getAll()),
-                fetchWithRetry(() => profileApi.get())
             ]);
 
             set({
@@ -93,15 +101,17 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
                 skills: skillsRes.data || [],
                 experiences: expRes.data || [],
                 socials: socialsRes.data || [],
-                profile: profileRes.data || defaultProfile,
                 isLoading: false,
                 hasFetched: true
             });
         } catch (error) {
-            console.error('Failed to fetch portfolio data after retries:', error);
+            console.error('Failed to fetch portfolio data:', error);
+            // Don't block the UI with full error screen if we have static data
+            // Just mark loading as false
             set({
-                error: 'Failed to load portfolio data. Please try refreshing.',
-                isLoading: false
+                isLoading: false,
+                // Only show global error if EVERYTHING failed and we have no static fallback (unlikely with hardcoded profile)
+                error: 'Connection unstable. Some data may be missing.'
             });
         }
     },

@@ -1,8 +1,11 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, FolderOpen, Hammer, MonitorPlay, LogOut, ExternalLink, Share2, UserCircle, Settings, Bell } from 'lucide-react';
+import { LayoutDashboard, FolderOpen, Hammer, MonitorPlay, LogOut, ExternalLink, Share2, UserCircle, Settings, Bell, Menu, X } from 'lucide-react';
+import { useState } from 'react';
 
 const AdminLayout = () => {
     const location = useLocation();
+    const [isSidebarOpen, setSidebarOpen] = useState(false);
+    const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
     const navItems = [
         { path: '/admin', icon: <LayoutDashboard className="w-4 h-4" />, label: 'Overview' },
@@ -18,22 +21,44 @@ const AdminLayout = () => {
     return (
         <div className="flex h-screen bg-[#111] text-retro-white font-body overflow-hidden">
 
+            {/* Mobile Header */}
+            <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#0a0a0a] border-b border-[#333] flex items-center justify-between px-4 z-50">
+                <h1 className="font-display text-lg text-retro-orange tracking-widest uppercase">
+                    COMMAND CENTER
+                </h1>
+                <button onClick={toggleSidebar} className="p-2 text-gray-400 hover:text-white">
+                    {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                </button>
+            </div>
+
+            {/* Sidebar Overlay */}
+            {isSidebarOpen && (
+                <div
+                    className="fixed inset-0 bg-black/50 z-40 md:hidden"
+                    onClick={() => setSidebarOpen(false)}
+                />
+            )}
+
             {/* Sidebar */}
-            <aside className="w-64 bg-[#0a0a0a] border-r border-[#333] flex flex-col">
-                <div className="p-6 border-b border-[#333]">
+            <aside className={`
+                fixed md:static inset-y-0 left-0 z-40 w-64 bg-[#0a0a0a] border-r border-[#333] flex flex-col transition-transform duration-300 ease-in-out
+                ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 pt-16 md:pt-0
+            `}>
+                <div className="hidden md:block p-6 border-b border-[#333]">
                     <h1 className="font-display text-xl text-retro-orange tracking-widest uppercase">
                         COMMAND<br />CENTER
                     </h1>
                     <p className="text-[10px] font-mono text-gray-500 mt-2">v2.0.0 • ADMIN MODULE</p>
                 </div>
 
-                <nav className="flex-1 p-4 space-y-2">
+                <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
                     {navItems.map((item) => {
                         const isActive = location.pathname === item.path;
                         return (
                             <Link
                                 key={item.path}
                                 to={item.path}
+                                onClick={() => setSidebarOpen(false)}
                                 className={`
                                     flex items-center gap-3 px-4 py-3 rounded-lg font-mono text-xs uppercase tracking-wider transition-all
                                     ${isActive
@@ -62,8 +87,8 @@ const AdminLayout = () => {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 overflow-auto bg-[#1a1a1a]">
-                <div className="p-8">
+            <main className="flex-1 overflow-auto bg-[#1a1a1a] pt-16 md:pt-0">
+                <div className="p-4 md:p-8">
                     <div className="max-w-7xl mx-auto">
                         <Outlet />
                     </div>

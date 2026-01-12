@@ -32,18 +32,8 @@ const Portfolio = () => {
     fetchAllData();
   }, [fetchAllData]);
 
-  // Show loading screen on initial load
-  if (isLoading && !hasFetched) {
-    return (
-      <div className="min-h-screen bg-pastel-yellow flex flex-col items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-retro-dark border-t-retro-orange rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="font-display text-xl text-retro-dark uppercase tracking-widest">Loading...</p>
-          <p className="font-mono text-xs text-retro-dark/50 mt-2">Initializing portfolio data</p>
-        </div>
-      </div>
-    );
-  }
+  // Loading screen removed as per user request
+
 
   // Show error with retry button if fetch completely failed
   if (error && !hasFetched) {
