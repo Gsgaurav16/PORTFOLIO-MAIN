@@ -3,7 +3,7 @@ import SectionWrapper from '../ui/SectionWrapper';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
 import { ArrowRight, Terminal, Code, Sparkles } from 'lucide-react';
-import characterImg from '../../assets/tv-character.png';
+import characterImg from '../../assets/tv-character.webp';
 import { usePortfolioStore } from '../../store/useStore';
 
 const Hero = () => {
@@ -86,6 +86,10 @@ const Hero = () => {
                             <img
                                 src={characterImg}
                                 alt="Gaurav Character Avatar"
+                                fetchPriority="high"
+                                loading="eager"
+                                width="341"
+                                height="341"
                                 className="w-full h-full object-cover object-center scale-110 translate-y-4"
                             />
 
