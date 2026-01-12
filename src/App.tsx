@@ -26,7 +26,7 @@ import AdminDashboard from './components/admin/AdminDashboard';
 
 // Public Portfolio Page
 const Portfolio = () => {
-  const { fetchAllData, isLoading, error, hasFetched } = usePortfolioStore();
+  const { fetchAllData, error, hasFetched } = usePortfolioStore();
 
   useEffect(() => {
     fetchAllData();
