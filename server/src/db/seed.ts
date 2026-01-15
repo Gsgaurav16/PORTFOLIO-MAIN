@@ -118,6 +118,36 @@ const seed = async () => {
         `, ['Gaurav', 'Dev & Creator', 'Building clean UI, scalable backends, and creative tech.', '5+', '42', '100%', ['Frontend', 'Backend', 'UI/UX']]);
         console.log('✅ Seeded profile');
 
+        // Seed reviews
+        const reviews = [
+            {
+                name: 'Sarah Connor',
+                role: 'CTO @ Skynet',
+                text: 'Gaurav delivers critical updates with zero downtime. His code architecture is future-proof and incredibly robust.',
+                rating: 5,
+            },
+            {
+                name: 'John Stark',
+                role: 'Product Lead @ Winterfell',
+                text: 'The UI/UX design feels intuitive yet powerful. Working with Gaurav was like unlocking a cheat code for our frontend.',
+                rating: 5,
+            },
+            {
+                name: 'Ellen Ripley',
+                role: 'Engineer @ Nostromo',
+                text: 'Exceptional problem solver. He navigated complex backend integrations with ease. Highly recommended for any mission.',
+                rating: 5,
+            },
+        ];
+
+        for (const r of reviews) {
+            await query(`
+                INSERT INTO reviews (name, role, text, rating)
+                VALUES ($1, $2, $3, $4)
+            `, [r.name, r.role, r.text, r.rating]);
+        }
+        console.log('✅ Seeded reviews');
+
         console.log('\n🎉 Seeding completed successfully!');
     } catch (error) {
         console.error('❌ Seeding failed:', error);

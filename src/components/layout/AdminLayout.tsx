@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, FolderOpen, Hammer, MonitorPlay, LogOut, ExternalLink, Share2, UserCircle, Settings, Bell, Menu, X } from 'lucide-react';
+import { LayoutDashboard, FolderOpen, Hammer, MonitorPlay, LogOut, ExternalLink, Share2, UserCircle, Settings, Bell, Menu, X, MessageSquare } from 'lucide-react';
 import { useState } from 'react';
 
 const AdminLayout = () => {
@@ -12,6 +12,7 @@ const AdminLayout = () => {
         { path: '/admin/projects', icon: <FolderOpen className="w-4 h-4" />, label: 'Projects' },
         { path: '/admin/skills', icon: <Hammer className="w-4 h-4" />, label: 'Skills' },
         { path: '/admin/experience', icon: <MonitorPlay className="w-4 h-4" />, label: 'Experience' },
+        { path: '/admin/reviews', icon: <MessageSquare className="w-4 h-4" />, label: 'Reviews' },
         { path: '/admin/socials', icon: <Share2 className="w-4 h-4" />, label: 'Socials' },
         { path: '/admin/profile', icon: <UserCircle className="w-4 h-4" />, label: 'Identity' },
         { path: '/admin/messages', icon: <Bell className="w-4 h-4" />, label: 'Messages' },

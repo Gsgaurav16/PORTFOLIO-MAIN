@@ -95,6 +95,19 @@ const migrate = async () => {
         `);
         console.log('✅ Created profile table');
 
+        // Reviews table
+        await query(`
+            CREATE TABLE IF NOT EXISTS reviews (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                name VARCHAR(100) NOT NULL,
+                role VARCHAR(100) NOT NULL,
+                text TEXT NOT NULL,
+                rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `);
+        console.log('✅ Created reviews table');
+
         console.log('\n🎉 Migration completed successfully!');
     } catch (error) {
         console.error('❌ Migration failed:', error);

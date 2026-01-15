@@ -14,6 +14,7 @@ import AdminLayout from './components/layout/AdminLayout';
 import AdminProjects from './components/admin/AdminProjects';
 import AdminSkills from './components/admin/AdminSkills';
 import AdminExperience from './components/admin/AdminExperience';
+import AdminReviews from './components/admin/AdminReviews';
 import AdminSocials from './components/admin/AdminSocials';
 import AdminProfile from './components/admin/AdminProfile';
 import AdminSettings from './components/admin/AdminSettings';
@@ -123,6 +124,7 @@ function App() {
               <Route path="projects" element={<AdminProjects />} />
               <Route path="skills" element={<AdminSkills />} />
               <Route path="experience" element={<AdminExperience />} />
+              <Route path="reviews" element={<AdminReviews />} />
               <Route path="socials" element={<AdminSocials />} />
               <Route path="profile" element={<AdminProfile />} />
               <Route path="settings" element={<AdminSettings />} />

@@ -5,11 +5,13 @@ import {
     experiencesApi,
     socialsApi,
     profileApi,
+    reviewsApi,
     type Project,
     type Skill,
     type Experience,
     type SocialLink,
-    type Profile
+    type Profile,
+    type Review
 } from '../services/api';
 
 // --- Types ---
@@ -18,6 +20,7 @@ interface PortfolioState {
     skills: Skill[];
     experiences: Experience[];
     socials: SocialLink[];
+    reviews: Review[];
     profile: Profile;
     isLoading: boolean;
     error: string | null;
@@ -64,6 +67,7 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
     skills: [],
     experiences: [],
     socials: [],
+    reviews: [],
     profile: defaultProfile,
     isLoading: false,
     error: null,
@@ -88,12 +92,14 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
                 projectsRes,
                 skillsRes,
                 expRes,
-                socialsRes
+                socialsRes,
+                reviewsRes
             ] = await Promise.all([
                 fetchWithRetry(() => projectsApi.getAll()),
                 fetchWithRetry(() => skillsApi.getAll()),
                 fetchWithRetry(() => experiencesApi.getAll()),
                 fetchWithRetry(() => socialsApi.getAll()),
+                fetchWithRetry(() => reviewsApi.getAll()),
             ]);
 
             set({
@@ -101,6 +107,7 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
                 skills: skillsRes.data || [],
                 experiences: expRes.data || [],
                 socials: socialsRes.data || [],
+                reviews: reviewsRes.data || [],
                 isLoading: false,
                 hasFetched: true
             });

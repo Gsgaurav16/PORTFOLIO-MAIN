@@ -258,3 +258,36 @@ export const messagesApi = {
     delete: (id: string) =>
         request<{ success: boolean }>(`/messages/${id}`, { method: 'DELETE' }),
 };
+
+// ==============================================
+// REVIEWS API (ARCADE REVIEWS)
+// ==============================================
+
+export interface Review {
+    id: string;
+    name: string;
+    role: string;
+    text: string;
+    rating: number;
+    created_at?: string;
+}
+
+export const reviewsApi = {
+    getAll: () =>
+        request<{ success: boolean; data: Review[] }>('/reviews'),
+
+    create: (review: Omit<Review, 'id' | 'created_at'>) =>
+        request<{ success: boolean; data: Review }>('/reviews', {
+            method: 'POST',
+            body: JSON.stringify(review),
+        }),
+
+    update: (id: string, review: Partial<Review>) =>
+        request<{ success: boolean; data: Review }>(`/reviews/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(review),
+        }),
+
+    delete: (id: string) =>
+        request<{ success: boolean }>(`/reviews/${id}`, { method: 'DELETE' }),
+};

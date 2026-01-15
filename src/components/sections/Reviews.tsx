@@ -2,30 +2,14 @@ import { useState } from 'react';
 import SectionWrapper from '../ui/SectionWrapper';
 import { Star, ChevronLeft, ChevronRight, MessageSquare } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { usePortfolioStore } from '../../store/useStore';
 
 const Reviews = () => {
+    const { reviews } = usePortfolioStore();
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const reviews = [
-        {
-            name: 'Sarah Connor',
-            role: 'CTO @ Skynet',
-            text: 'Gaurav delivers critical updates with zero downtime. His code architecture is future-proof and incredibly robust.',
-            rating: 5,
-        },
-        {
-            name: 'John Stark',
-            role: 'Product Lead @ Winterfell',
-            text: 'The UI/UX design feels intuitive yet powerful. Working with Gaurav was like unlocking a cheat code for our frontend.',
-            rating: 5,
-        },
-        {
-            name: 'Ellen Ripley',
-            role: 'Engineer @ Nostromo',
-            text: 'Exceptional problem solver. He navigated complex backend integrations with ease. Highly recommended for any mission.',
-            rating: 5,
-        },
-    ];
+    // Fallback if no reviews (shouldn't happen with seed data)
+    if (!reviews || reviews.length === 0) return null;
 
     const nextReview = () => {
         setCurrentIndex((prev) => (prev + 1) % reviews.length);

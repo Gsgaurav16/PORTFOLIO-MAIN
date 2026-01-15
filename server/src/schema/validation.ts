@@ -130,6 +130,19 @@ export const messageSchema = z.object({
 export const uuidSchema = z.string().uuid('Invalid ID format');
 
 // ==============================================
+// REVIEW SCHEMAS
+// ==============================================
+
+export const createReviewSchema = z.object({
+    name: safeString(100),
+    role: safeString(100),
+    text: safeString(500), // Longer text allowed for reviews
+    rating: z.number().int().min(1).max(5),
+}).strict();
+
+export const updateReviewSchema = createReviewSchema.partial().strict();
+
+// ==============================================
 // TYPE EXPORTS
 // ==============================================
 
@@ -142,3 +155,5 @@ export type CreateExperienceInput = z.infer<typeof createExperienceSchema>;
 export type UpdateExperienceInput = z.infer<typeof updateExperienceSchema>;
 export type UpdateSocialInput = z.infer<typeof updateSocialSchema>;
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
+export type CreateReviewInput = z.infer<typeof createReviewSchema>;
+export type UpdateReviewInput = z.infer<typeof updateReviewSchema>;

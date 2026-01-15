@@ -21,6 +21,7 @@ import experiencesRoutes from './routes/experiences.js';
 import socialsRoutes from './routes/socials.js';
 import profileRoutes from './routes/profile.js';
 import messagesRoutes from './routes/messages.js';
+import reviewsRoutes from './routes/reviews.js';
 
 // Import middleware
 import { globalLimiter } from './middleware/rateLimiter.js';
@@ -87,6 +88,7 @@ app.use('/api/experiences', experiencesRoutes);
 app.use('/api/socials', socialsRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/messages', messagesRoutes);
+app.use('/api/reviews', reviewsRoutes);
 
 /**
  * Health check endpoint
