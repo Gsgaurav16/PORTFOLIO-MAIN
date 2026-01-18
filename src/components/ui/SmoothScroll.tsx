@@ -5,12 +5,12 @@ import Lenis from 'lenis';
 const SmoothScroll = () => {
     useEffect(() => {
         const lenis = new Lenis({
-            duration: 0.8,
+            duration: 0.6,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             orientation: 'vertical',
             gestureOrientation: 'vertical',
             smoothWheel: true,
-            wheelMultiplier: 1.2,
+            wheelMultiplier: 1.5,
             touchMultiplier: 2,
         });
 
