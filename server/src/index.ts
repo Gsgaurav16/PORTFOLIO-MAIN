@@ -136,15 +136,17 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 // START SERVER
 // ==============================================
 
-app.listen(PORT, () => {
-    console.log(`
-🎮 ========================================
-   RETRO PORTFOLIO API SERVER
-   Running on port ${PORT}
-   Environment: ${process.env.NODE_ENV || 'development'}
-🎮 ========================================
-    `);
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`
+    🎮 ========================================
+       RETRO PORTFOLIO API SERVER
+       Running on port ${PORT}
+       Environment: ${process.env.NODE_ENV || 'development'}
+    🎮 ========================================
+        `);
+    });
+}
 
 export default app;
 // Force restart for env update
