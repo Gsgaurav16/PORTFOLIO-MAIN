@@ -55,15 +55,17 @@ app.use(helmet());
  * CORS - Only allow specified origins
  * OWASP: Restrict cross-origin requests
  */
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'http://127.0.0.1:5173',
-    'http://127.0.0.1:3000',
+const defaultOrigins = [
     'https://gauravsharma.tech',
     'https://www.gauravsharma.tech',
-    'https://portfolio-main-ptqz.vercel.app'
+    'https://portfolio-main-ptqz.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:3000'
 ];
+
+const envOrigins = process.env.ALLOWED_ORIGINS?.split(',').filter(Boolean) || [];
+const allowedOrigins = [...new Set([...defaultOrigins, ...envOrigins])];
+
 app.use(cors({
     origin: (origin, callback) => {
         // Allow requests with no origin (mobile apps, curl, etc.)
