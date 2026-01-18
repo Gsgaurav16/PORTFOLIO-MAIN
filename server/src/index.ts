@@ -40,6 +40,15 @@ const PORT = process.env.PORT || 3001;
  * - X-XSS-Protection: 1; mode=block
  * - Strict-Transport-Security
  */
+app.set('trust proxy', 1);
+
+/**
+ * Helmet - Sets various HTTP headers for security
+ * - X-Content-Type-Options: nosniff
+ * - X-Frame-Options: DENY
+ * - X-XSS-Protection: 1; mode=block
+ * - Strict-Transport-Security
+ */
 app.use(helmet());
 
 /**
@@ -50,7 +59,10 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [
     'http://localhost:5173',
     'http://localhost:3000',
     'http://127.0.0.1:5173',
-    'http://127.0.0.1:3000'
+    'http://127.0.0.1:3000',
+    'https://gauravsharma.tech',
+    'https://www.gauravsharma.tech',
+    'https://portfolio-main-ptqz.vercel.app'
 ];
 app.use(cors({
     origin: (origin, callback) => {
@@ -61,7 +73,7 @@ app.use(cors({
             return callback(null, true);
         }
 
-        return callback(new Error('CORS not allowed'), false);
+        return callback(new Error(`CORS not allowed at origin: ${origin}`), false);
     },
     credentials: true, // Allow cookies
 }));
